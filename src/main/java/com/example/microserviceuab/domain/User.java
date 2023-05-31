@@ -3,17 +3,18 @@ package com.example.microserviceuab.domain;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @SuperBuilder
 @Data
 @NoArgsConstructor
 @Document
 public class User {
-    @Id
+    @MongoId(FieldType.OBJECT_ID)
     protected String id;
     @Indexed(unique = true, direction = IndexDirection.DESCENDING)
     protected String username;

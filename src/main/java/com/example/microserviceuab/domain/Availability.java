@@ -7,17 +7,20 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
-@Data
+import java.util.Date;
+
 @Builder
-@Document(collection = "room")
-public class Room {
+@Data
+@Document(collection = "availability")
+public class Availability {
     @MongoId(FieldType.OBJECT_ID)
     private String id;
-    private String name;
-    private String type;
-    private int quantity;
-    private boolean enabled;
+    private Date date;
+    private int availableQuantity;
 
     @DocumentReference
-    private Accommodation accommodation;
+    private String hotelId;
+
+    @DocumentReference
+    private String roomId;
 }

@@ -2,9 +2,10 @@ package com.example.microserviceuab.domain;
 
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.time.ZonedDateTime;
 
@@ -12,7 +13,7 @@ import java.time.ZonedDateTime;
 @Data
 @Document(collection = "booking")
 public class Booking {
-    @Id
+    @MongoId(FieldType.OBJECT_ID)
     private String id;
     private boolean paid;
     private ZonedDateTime checkIn;
