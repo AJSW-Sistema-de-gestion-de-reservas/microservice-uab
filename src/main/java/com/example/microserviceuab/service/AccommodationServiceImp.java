@@ -9,6 +9,7 @@ import com.example.microserviceuab.dto.AccommodationUpdateRequestDto;
 import com.example.microserviceuab.repository.AccommodationRepository;
 import com.example.microserviceuab.repository.OwnerRepository;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -68,8 +69,8 @@ public class AccommodationServiceImp implements AccommodationService {
     }
 
     @Override
-    public List<AccommodationInfoResponseDto> findByName(String name) {
-        List<Accommodation> resultList = accommodationRepository.findByName(name);
+    public List<AccommodationInfoResponseDto> findByOwnerId(String ownerId) {
+        List<Accommodation> resultList = accommodationRepository.findByOwnerId(new ObjectId(ownerId));
 
         return resultList.stream().map(a -> AccommodationInfoResponseDto.builder()
                 .id(a.getId())
@@ -82,8 +83,8 @@ public class AccommodationServiceImp implements AccommodationService {
     }
 
     @Override
-    public List<AccommodationInfoResponseDto> findByOwnerId(String ownerId) {
-        List<Accommodation> resultList = accommodationRepository.findByOwnerId(new ObjectId(ownerId));
+    public List<AccommodationInfoResponseDto> findByName(String name) {
+        List<Accommodation> resultList = accommodationRepository.findByName(name);
 
         return resultList.stream().map(a -> AccommodationInfoResponseDto.builder()
                 .id(a.getId())
@@ -112,6 +113,27 @@ public class AccommodationServiceImp implements AccommodationService {
     @Override
     public List<AccommodationInfoResponseDto> findByProvince(String province) {
         List<Accommodation> resultList = accommodationRepository.findByProvince(province);
+
+        return resultList.stream().map(a -> AccommodationInfoResponseDto.builder()
+                .id(a.getId())
+                .name(a.getName())
+                .address(a.getAddress())
+                .city(a.getCity())
+                .province(a.getProvince())
+                .postalCode(a.getPostalCode())
+                .build()).toList();
+    }
+
+    @Override
+    public List<AccommodationInfoResponseDto> findByNameCityAndProvince(String name, String city, String province) {
+        TextCriteria criteria = TextCriteria.forDefaultLanguage()
+                .caseSensitive(false)
+                .diacriticSensitive(false)
+                .matching(name)
+                .matchingPhrase(city)
+                .matchingPhrase(province);
+
+        List<Accommodation> resultList = accommodationRepository.findAllBy(criteria);
 
         return resultList.stream().map(a -> AccommodationInfoResponseDto.builder()
                 .id(a.getId())

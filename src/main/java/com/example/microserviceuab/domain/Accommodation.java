@@ -2,8 +2,7 @@ package com.example.microserviceuab.domain;
 
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.mongodb.core.index.IndexDirection;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.FieldType;
@@ -15,10 +14,12 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 public class Accommodation {
     @MongoId(FieldType.OBJECT_ID)
     private String id;
-    @Indexed(direction = IndexDirection.DESCENDING)
+    @TextIndexed
     private String name;
     private String address;
+    @TextIndexed
     private String city;
+    @TextIndexed
     private String province;
     private String postalCode;
     private boolean enabled;

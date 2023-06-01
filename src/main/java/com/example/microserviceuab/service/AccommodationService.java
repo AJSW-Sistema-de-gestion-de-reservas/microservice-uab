@@ -14,11 +14,13 @@ public interface AccommodationService {
 
     void update(String id, AccommodationUpdateRequestDto dto);
 
-    List<AccommodationInfoResponseDto> findByName(String name);
-
     List<AccommodationInfoResponseDto> findByOwnerId(String ownerId);
+
+    List<AccommodationInfoResponseDto> findByName(String name);
 
     List<AccommodationInfoResponseDto> findByCity(String city);
 
     List<AccommodationInfoResponseDto> findByProvince(String province);
+
+    List<AccommodationInfoResponseDto> findByNameCityAndProvince(String name, String city, String province);
 }
