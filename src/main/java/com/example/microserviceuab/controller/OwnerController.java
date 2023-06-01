@@ -17,25 +17,25 @@ public class OwnerController {
         this.service = service;
     }
 
-    @PostMapping("register")
+    @PostMapping
     public ResponseEntity<String> register(@RequestBody OwnerCreationRequestDto dto) {
         service.register(dto);
         return ResponseEntity.ok("");
     }
 
-    @GetMapping("id/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<OwnerInfoResponseDto> getInfoFromId(@PathVariable String id) {
         OwnerInfoResponseDto dto = service.getInfoFromId(id);
         return ResponseEntity.ok(dto);
     }
 
-    @GetMapping("chatId/{chatId}")
+    @GetMapping("chatId={chatId}")
     public ResponseEntity<OwnerInfoResponseDto> getInfoFromChatId(@PathVariable long chatId) {
         OwnerInfoResponseDto dto = service.getInfoFromChatId(chatId);
         return ResponseEntity.ok(dto);
     }
 
-    @GetMapping("username/{username}")
+    @GetMapping("username={username}")
     public ResponseEntity<OwnerInfoResponseDto> getInfoFromUsername(@PathVariable String username) {
         OwnerInfoResponseDto dto = service.getInfoFromUsername(username);
         return ResponseEntity.ok(dto);

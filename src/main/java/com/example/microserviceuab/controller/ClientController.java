@@ -18,25 +18,25 @@ public class ClientController {
         this.service = service;
     }
 
-    @PostMapping("register")
+    @PostMapping
     public ResponseEntity<String> register(@RequestBody ClientCreationRequestDto dto) {
         service.register(dto);
         return ResponseEntity.ok("");
     }
 
-    @GetMapping("id/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<ClientInfoResponseDto> getInfoFromId(@PathVariable String id) {
         ClientInfoResponseDto result = service.getInfoFromId(id);
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("chatId/{chatId}")
+    @GetMapping("chatId={chatId}")
     public ResponseEntity<ClientInfoResponseDto> getInfoFromChatId(@PathVariable long chatId) {
         ClientInfoResponseDto result = service.getInfoFromChatId(chatId);
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("username/{username}")
+    @GetMapping("username={username}")
     public ResponseEntity<ClientInfoResponseDto> getInfoFromUsername(@PathVariable String username) {
         ClientInfoResponseDto result = service.getInfoFromUsername(username);
         return ResponseEntity.ok(result);

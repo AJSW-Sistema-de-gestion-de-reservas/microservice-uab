@@ -10,7 +10,9 @@ import java.util.Optional;
 @Repository
 public interface ClientRepository extends MongoRepository<Client, String> {
     Optional<Client> findByUsername(String username);
+
     Optional<Client> findByChatId(Long chatId);
+
     @ExistsQuery("{ 'username':  ?0 }")
     boolean existsByUsername(String username);
 }
