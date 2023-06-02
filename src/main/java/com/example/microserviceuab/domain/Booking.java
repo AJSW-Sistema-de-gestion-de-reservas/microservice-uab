@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
-import java.time.ZonedDateTime;
+import java.util.Date;
 
 @Builder
 @Data
@@ -15,9 +15,10 @@ import java.time.ZonedDateTime;
 public class Booking {
     @MongoId(FieldType.OBJECT_ID)
     private String id;
+    private double amount;
     private boolean paid;
-    private ZonedDateTime checkIn;
-    private ZonedDateTime checkOut;
+    private Date checkIn;
+    private Date checkOut;
 
     @DocumentReference(lazy = true)
     private Owner owner;
@@ -25,9 +26,9 @@ public class Booking {
     @DocumentReference(lazy = true)
     private Client client;
 
-    @DocumentReference
+    @DocumentReference(lazy = true)
     private Accommodation accommodation;
 
-    @DocumentReference
+    @DocumentReference(lazy = true)
     private Room room;
 }
