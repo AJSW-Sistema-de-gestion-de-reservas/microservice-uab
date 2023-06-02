@@ -12,22 +12,22 @@ import java.util.List;
 @Repository
 public interface AccommodationRepository extends MongoRepository<Accommodation, String> {
     @Query("{ name: {'$regex' : ?0, '$options' : 'i'}, enabled: true }")
-    List<Accommodation> findByName(String name);
+    List<Accommodation> findAllByName(String name);
 
     @Query("{ owner: ?0 }")
-    List<Accommodation> findByOwnerId(ObjectId ownerId);
+    List<Accommodation> findAllByOwnerId(ObjectId ownerId);
 
     @Query("{ city:  {'$regex' : ?0, '$options' : 'i'}, enabled: true }")
-    List<Accommodation> findByCity(String city);
+    List<Accommodation> findAllByCity(String city);
 
     @Query("{ province: {'$regex' : ?0, '$options' : 'i'}, enabled: true }")
-    List<Accommodation> findByProvince(String province);
+    List<Accommodation> findAllByProvince(String province);
 
     @Query("{$and: [ { $or : [ { $where: '\"?0\".length == 0' } , { name: {'$regex' : ?0, '$options' : 'ix'} } ] },"
             + "{ $or : [ { $where: '\"?1\".length == 0' } , { city: {'$regex' : ?1, '$options' : 'ix'} } ] },"
             + "{ $or : [ { $where: '\"?2\".length == 0' } , { province: {'$regex' : ?2, '$options' : 'ix'} } ] },"
             + "{ enabled: true } ] }")
-    List<Accommodation> findByNameCityAndProvince(String name, String city, String province);
+    List<Accommodation> findAllByNameCityAndProvince(String name, String city, String province);
 
     List<Accommodation> findAllBy(TextCriteria criteria);
 }

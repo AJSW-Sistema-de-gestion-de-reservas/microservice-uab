@@ -46,7 +46,7 @@ public class RoomServiceImp implements RoomService {
 
     @Override
     public List<RoomInfoResponseDto> getByAccommodationId(String accommodationId) {
-        List<Room> results = roomRepository.findByAccommodationId(new ObjectId(accommodationId));
+        List<Room> results = roomRepository.findAllByAccommodation(new ObjectId(accommodationId));
 
         return results.stream().map(room -> {
             return RoomInfoResponseDto.builder()

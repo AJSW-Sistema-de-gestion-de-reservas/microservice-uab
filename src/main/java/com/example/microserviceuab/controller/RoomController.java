@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/accommodation/{id}")
+@RequestMapping("api/accommodation/{id}/room")
 public class RoomController {
     private final RoomService service;
 
@@ -19,13 +19,13 @@ public class RoomController {
         this.service = service;
     }
 
-    @PostMapping("room")
+    @PostMapping
     public ResponseEntity<String> create(@PathVariable String id, @RequestBody RoomCreationRequestDto dto) {
         service.create(id, dto);
         return ResponseEntity.ok("");
     }
 
-    @GetMapping("rooms")
+    @GetMapping
     public ResponseEntity<List<RoomInfoResponseDto>> getByAccommodationId(@PathVariable String id) {
         List<RoomInfoResponseDto> rooms = service.getByAccommodationId(id);
         return ResponseEntity.ok(rooms);

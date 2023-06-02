@@ -70,7 +70,7 @@ public class AccommodationServiceImp implements AccommodationService {
 
     @Override
     public List<AccommodationInfoResponseDto> findByOwnerId(String ownerId) {
-        List<Accommodation> resultList = accommodationRepository.findByOwnerId(new ObjectId(ownerId));
+        List<Accommodation> resultList = accommodationRepository.findAllByOwnerId(new ObjectId(ownerId));
 
         return resultList.stream().map(a -> AccommodationInfoResponseDto.builder()
                 .id(a.getId())
@@ -84,7 +84,7 @@ public class AccommodationServiceImp implements AccommodationService {
 
     @Override
     public List<AccommodationInfoResponseDto> findByName(String name) {
-        List<Accommodation> resultList = accommodationRepository.findByName(name);
+        List<Accommodation> resultList = accommodationRepository.findAllByName(name);
 
         return resultList.stream().map(a -> AccommodationInfoResponseDto.builder()
                 .id(a.getId())
@@ -98,7 +98,7 @@ public class AccommodationServiceImp implements AccommodationService {
 
     @Override
     public List<AccommodationInfoResponseDto> findByCity(String city) {
-        List<Accommodation> resultList = accommodationRepository.findByCity(city);
+        List<Accommodation> resultList = accommodationRepository.findAllByCity(city);
 
         return resultList.stream().map(a -> AccommodationInfoResponseDto.builder()
                 .id(a.getId())
@@ -112,7 +112,7 @@ public class AccommodationServiceImp implements AccommodationService {
 
     @Override
     public List<AccommodationInfoResponseDto> findByProvince(String province) {
-        List<Accommodation> resultList = accommodationRepository.findByProvince(province);
+        List<Accommodation> resultList = accommodationRepository.findAllByProvince(province);
 
         return resultList.stream().map(a -> AccommodationInfoResponseDto.builder()
                 .id(a.getId())
