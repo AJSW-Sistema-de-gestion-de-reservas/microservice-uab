@@ -17,6 +17,6 @@ public class Room {
     private int quantity;
     private boolean enabled;
 
-    @DocumentReference
+    @DocumentReference(lazy = true)
     private Accommodation accommodation;
 }
