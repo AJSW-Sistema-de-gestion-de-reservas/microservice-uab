@@ -48,12 +48,10 @@ public class RoomServiceImp implements RoomService {
     public List<RoomInfoResponseDto> getByAccommodationId(String accommodationId) {
         List<Room> results = roomRepository.findAllByAccommodation(new ObjectId(accommodationId));
 
-        return results.stream().map(room -> {
-            return RoomInfoResponseDto.builder()
-                    .id(room.getId())
-                    .name(room.getId())
-                    .quantity(room.getQuantity())
-                    .build();
-        }).toList();
+        return results.stream().map(room -> RoomInfoResponseDto.builder()
+                .id(room.getId())
+                .name(room.getName())
+                .quantity(room.getQuantity())
+                .build()).toList();
     }
 }

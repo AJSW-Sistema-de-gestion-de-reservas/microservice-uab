@@ -34,7 +34,7 @@ public class AvailabilityServiceImp implements AvailabilityService {
         if (availabilityRepository.existsByAccommodationIdRoomIdAndDate(
                 new ObjectId(accommodationId),
                 new ObjectId(roomId),
-                TimeUtils.convertDateToUTCSameInstant(dto.getDate())))
+                TimeUtils.convertInstantDateToUTC(dto.getDate())))
             throw new RuntimeException();
 
         Availability availability = Availability.builder()
@@ -68,7 +68,8 @@ public class AvailabilityServiceImp implements AvailabilityService {
     public AvailabilityInfoResponseDto findByAccommodationIdRoomIdAndDate(String accommodationId, String roomId,
                                                                           Date date) {
         Availability availability = availabilityRepository.findByAccommodationAndRoomAndDate(
-                new ObjectId(accommodationId), new ObjectId(roomId), TimeUtils.convertDateToUTCSameInstant(date)
+                new ObjectId(accommodationId), new ObjectId(roomId),
+                TimeUtils.convertInstantDateToUTC(date)
         ).orElseThrow(RuntimeException::new);
 
         return AvailabilityInfoResponseDto.builder()
@@ -87,8 +88,8 @@ public class AvailabilityServiceImp implements AvailabilityService {
         List<Availability> results = availabilityRepository.findAllByAccommodationAndRoomAndDateBetween(
                 new ObjectId(accommodationId),
                 new ObjectId(roomId),
-                TimeUtils.convertDateToUTCSameInstant(startDate),
-                TimeUtils.convertDateToUTCSameInstant(endDate)
+                TimeUtils.convertInstantDateToUTC(startDate),
+                TimeUtils.convertInstantDateToUTC(endDate)
         );
 
         return results.stream().map(availability -> AvailabilityInfoResponseDto.builder()
@@ -119,7 +120,7 @@ public class AvailabilityServiceImp implements AvailabilityService {
     public List<AvailabilityInfoResponseDto> findByAccommodationIdAndDate(String accommodationId, Date date) {
         List<Availability> results = availabilityRepository.findAllByAccommodationAndDate(
                 new ObjectId(accommodationId),
-                TimeUtils.convertDateToUTCSameInstant(date)
+                TimeUtils.convertInstantDateToUTC(date)
         );
 
         return results.stream().map(availability -> AvailabilityInfoResponseDto.builder()
@@ -136,8 +137,8 @@ public class AvailabilityServiceImp implements AvailabilityService {
     public List<AvailabilityInfoResponseDto> findByAccommodationIdAndDates(String accommodationId, Date startDate, Date endDate) {
         List<Availability> results = availabilityRepository.findAllByAccommodationAndDateBetween(
                 new ObjectId(accommodationId),
-                TimeUtils.convertDateToUTCSameInstant(startDate),
-                TimeUtils.convertDateToUTCSameInstant(endDate)
+                TimeUtils.convertInstantDateToUTC(startDate),
+                TimeUtils.convertInstantDateToUTC(endDate)
         );
 
         return results.stream().map(availability -> AvailabilityInfoResponseDto.builder()
