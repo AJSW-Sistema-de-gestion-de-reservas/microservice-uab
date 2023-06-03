@@ -7,9 +7,13 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.lang.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.MongoDatabaseFactory;
+import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+@Configuration
 @EnableMongoRepositories("com.example.microserviceuab.repository")
 public class MongoConfig extends AbstractMongoClientConfiguration {
 
@@ -38,6 +42,11 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
                 .build();
 
         return MongoClients.create(mongoClientSettings);
+    }
+
+    @Bean
+    MongoTransactionManager transactionManager(MongoDatabaseFactory dbFactory) {
+        return new MongoTransactionManager(dbFactory);
     }
 
     @Override
