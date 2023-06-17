@@ -4,6 +4,8 @@ import com.example.microserviceuab.domain.Accommodation;
 import com.example.microserviceuab.domain.Room;
 import com.example.microserviceuab.dto.RoomCreationRequestDto;
 import com.example.microserviceuab.dto.RoomInfoResponseDto;
+import com.example.microserviceuab.exception.AccommodationNotFoundException;
+import com.example.microserviceuab.exception.RoomAlreadyExistsException;
 import com.example.microserviceuab.repository.AccommodationRepository;
 import com.example.microserviceuab.repository.RoomRepository;
 import org.bson.types.ObjectId;
@@ -26,10 +28,10 @@ public class RoomServiceImp implements RoomService {
     @Override
     public void create(String accommodationId, RoomCreationRequestDto dto) {
         if (!accommodationRepository.existsById(accommodationId))
-            throw new RuntimeException();
+            throw new AccommodationNotFoundException();
 
         if (roomRepository.existsByName(dto.getName()))
-            throw new RuntimeException();
+            throw new RoomAlreadyExistsException();
 
         Accommodation accommodation = accommodationRepository.findById(accommodationId)
                 .orElseThrow(RuntimeException::new);

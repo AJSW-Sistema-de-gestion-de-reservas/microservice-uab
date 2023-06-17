@@ -5,6 +5,9 @@ import com.example.microserviceuab.domain.Availability;
 import com.example.microserviceuab.domain.Room;
 import com.example.microserviceuab.dto.AvailabilityCreateRequestDto;
 import com.example.microserviceuab.dto.AvailabilityInfoResponseDto;
+import com.example.microserviceuab.exception.AvailabilityAlreadyExists;
+import com.example.microserviceuab.exception.AvailabilityNotFoundException;
+import com.example.microserviceuab.exception.RoomNotFoundException;
 import com.example.microserviceuab.repository.AvailabilityRepository;
 import com.example.microserviceuab.repository.RoomRepository;
 import com.example.microserviceuab.utils.TimeUtils;
@@ -29,13 +32,13 @@ public class AvailabilityServiceImp implements AvailabilityService {
     @Override
     public void register(String accommodationId, String roomId, AvailabilityCreateRequestDto dto) {
         Room room = roomRepository.findByIdAndAccommodation(roomId, new ObjectId(accommodationId))
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(RoomNotFoundException::new);
 
         if (availabilityRepository.existsByAccommodationIdRoomIdAndDate(
                 new ObjectId(accommodationId),
                 new ObjectId(roomId),
                 TimeUtils.convertInstantDateToUTC(dto.getDate())))
-            throw new RuntimeException();
+            throw new AvailabilityAlreadyExists();
 
         Availability availability = Availability.builder()
                 .accommodation(Accommodation.builder().id(accommodationId).build())
@@ -70,7 +73,7 @@ public class AvailabilityServiceImp implements AvailabilityService {
         Availability availability = availabilityRepository.findByAccommodationAndRoomAndDate(
                 new ObjectId(accommodationId), new ObjectId(roomId),
                 TimeUtils.convertInstantDateToUTC(date)
-        ).orElseThrow(RuntimeException::new);
+        ).orElseThrow(AvailabilityNotFoundException::new);
 
         return AvailabilityInfoResponseDto.builder()
                 .id(availability.getId())

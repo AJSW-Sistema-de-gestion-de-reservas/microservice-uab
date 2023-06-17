@@ -3,6 +3,7 @@ package com.example.microserviceuab.service;
 import com.example.microserviceuab.domain.*;
 import com.example.microserviceuab.dto.BookingCreationRequestDto;
 import com.example.microserviceuab.dto.BookingInfoResponseDto;
+import com.example.microserviceuab.exception.NoAvailabilityException;
 import com.example.microserviceuab.repository.AvailabilityRepository;
 import com.example.microserviceuab.repository.BookingRepository;
 import com.example.microserviceuab.repository.ClientRepository;
@@ -42,7 +43,7 @@ public class BookingServiceImp implements BookingService {
 
         for (Availability availability : availabilities) {
             if (availability.getAvailableQuantity() <= 0) {
-                throw new RuntimeException();
+                throw new NoAvailabilityException();
             } else {
                 availability.setAvailableQuantity(availability.getAvailableQuantity() - 1);
             }

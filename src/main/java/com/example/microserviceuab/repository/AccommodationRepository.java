@@ -8,9 +8,13 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AccommodationRepository extends MongoRepository<Accommodation, String> {
+    @Query("{ name:  ?0, owner: ?1 }")
+    Optional<Accommodation> findByNameAndOwner(String name, ObjectId owner);
+
     @Query("{ name: {'$regex' : ?0, '$options' : 'i'}, enabled: true }")
     List<Accommodation> findAllByName(String name);
 

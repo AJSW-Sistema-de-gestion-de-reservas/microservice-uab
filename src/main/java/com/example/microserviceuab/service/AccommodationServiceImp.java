@@ -6,6 +6,7 @@ import com.example.microserviceuab.dto.AccommodationCreationWithChatIdRequestDto
 import com.example.microserviceuab.dto.AccommodationCreationWithIdRequestDto;
 import com.example.microserviceuab.dto.AccommodationInfoResponseDto;
 import com.example.microserviceuab.dto.AccommodationUpdateRequestDto;
+import com.example.microserviceuab.exception.OwnerNotFoundException;
 import com.example.microserviceuab.repository.AccommodationRepository;
 import com.example.microserviceuab.repository.OwnerRepository;
 import org.bson.types.ObjectId;
@@ -27,13 +28,13 @@ public class AccommodationServiceImp implements AccommodationService {
 
     @Override
     public void create(AccommodationCreationWithChatIdRequestDto dto) {
-        Owner owner = ownerRepository.findByChatId(123123123L).orElseThrow(RuntimeException::new);
+        Owner owner = ownerRepository.findByChatId(123123123L).orElseThrow(OwnerNotFoundException::new);
         saveAccommodation(owner, dto.getName(), dto.getAddress(), dto.getCity(), dto.getProvince(), dto.getPostalCode());
     }
 
     @Override
     public void create(AccommodationCreationWithIdRequestDto dto) {
-        Owner owner = ownerRepository.findById(dto.getOwnerId()).orElseThrow(RuntimeException::new);
+        Owner owner = ownerRepository.findById(dto.getOwnerId()).orElseThrow(OwnerNotFoundException::new);
         saveAccommodation(owner, dto.getName(), dto.getAddress(), dto.getCity(), dto.getProvince(), dto.getPostalCode());
     }
 
@@ -53,7 +54,7 @@ public class AccommodationServiceImp implements AccommodationService {
 
     @Override
     public void update(String id, AccommodationUpdateRequestDto dto) {
-        Owner owner = ownerRepository.findById(dto.getOwnerId()).orElseThrow(RuntimeException::new);
+        Owner owner = ownerRepository.findById(dto.getOwnerId()).orElseThrow(OwnerNotFoundException::new);
 
         accommodationRepository.findById(id)
                 .ifPresentOrElse((accommodation) -> {

@@ -3,6 +3,8 @@ package com.example.microserviceuab.service;
 import com.example.microserviceuab.domain.Owner;
 import com.example.microserviceuab.dto.OwnerCreationRequestDto;
 import com.example.microserviceuab.dto.OwnerInfoResponseDto;
+import com.example.microserviceuab.exception.OwnerNotFoundException;
+import com.example.microserviceuab.exception.UsernameAlreadyExistsException;
 import com.example.microserviceuab.repository.OwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,7 @@ public class OwnerServiceImp implements OwnerService {
     @Override
     public void register(OwnerCreationRequestDto dto) {
         if (repository.existsByUsername(dto.getUsername()))
-            throw new RuntimeException();
+            throw new UsernameAlreadyExistsException();
 
         Owner owner = Owner.builder()
                 .username(dto.getUsername())
@@ -38,7 +40,7 @@ public class OwnerServiceImp implements OwnerService {
         Optional<Owner> result = repository.findByChatId(chatId);
 
         if (result.isEmpty())
-            throw new RuntimeException();
+            throw new OwnerNotFoundException();
 
         Owner owner = result.get();
 
@@ -56,7 +58,7 @@ public class OwnerServiceImp implements OwnerService {
         Optional<Owner> result = repository.findByUsername(username);
 
         if (result.isEmpty())
-            throw new RuntimeException();
+            throw new OwnerNotFoundException();
 
         Owner owner = result.get();
 
@@ -74,7 +76,7 @@ public class OwnerServiceImp implements OwnerService {
         Optional<Owner> result = repository.findById(id);
 
         if (result.isEmpty())
-            throw new RuntimeException();
+            throw new OwnerNotFoundException();
 
         Owner owner = result.get();
 

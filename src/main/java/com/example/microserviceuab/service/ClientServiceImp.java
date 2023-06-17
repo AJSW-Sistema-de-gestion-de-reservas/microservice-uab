@@ -3,6 +3,8 @@ package com.example.microserviceuab.service;
 import com.example.microserviceuab.domain.Client;
 import com.example.microserviceuab.dto.ClientCreationRequestDto;
 import com.example.microserviceuab.dto.ClientInfoResponseDto;
+import com.example.microserviceuab.exception.ClientNotFoundException;
+import com.example.microserviceuab.exception.UsernameAlreadyExistsException;
 import com.example.microserviceuab.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,7 @@ public class ClientServiceImp implements ClientService {
     @Override
     public void register(ClientCreationRequestDto dto) {
         if (repository.existsByUsername(dto.getUsername()))
-            throw new RuntimeException();
+            throw new UsernameAlreadyExistsException("");
 
         Client client = Client.builder()
                 .username(dto.getUsername())
@@ -38,7 +40,7 @@ public class ClientServiceImp implements ClientService {
         Optional<Client> result = repository.findByChatId(chatId);
 
         if (result.isEmpty())
-            throw new RuntimeException();
+            throw new ClientNotFoundException();
 
         Client client = result.get();
 
@@ -56,7 +58,7 @@ public class ClientServiceImp implements ClientService {
         Optional<Client> result = repository.findByUsername(username);
 
         if (result.isEmpty())
-            throw new RuntimeException();
+            throw new ClientNotFoundException();
 
         Client client = result.get();
 
@@ -74,7 +76,7 @@ public class ClientServiceImp implements ClientService {
         Optional<Client> result = repository.findById(id);
 
         if (result.isEmpty())
-            throw new RuntimeException();
+            throw new ClientNotFoundException();
 
         Client client = result.get();
 

@@ -1,0 +1,30 @@
+package com.example.microserviceuab.controller;
+
+import com.example.microserviceuab.dto.ExceptionResponseDto;
+import com.example.microserviceuab.exception.NoAvailabilityException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice(assignableTypes = BookingController.class)
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+public class BookingExceptionHandler {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BookingExceptionHandler.class);
+
+    @ExceptionHandler(NoAvailabilityException.class)
+    public ResponseEntity<ExceptionResponseDto> handleNoAvailability(NoAvailabilityException ex) {
+        LOGGER.error("handleNoAvailability", ex);
+        return new ResponseEntity<>(
+                new ExceptionResponseDto("No availability between the requested dates"),
+                HttpStatusCode.valueOf(HttpStatus.CONFLICT.value())
+        );
+    }
+
+}
