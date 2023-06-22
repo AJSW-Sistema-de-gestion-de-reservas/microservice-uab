@@ -1,9 +1,6 @@
 package com.example.microserviceuab.service;
 
-import com.example.microserviceuab.dto.AccommodationCreationWithChatIdRequestDto;
-import com.example.microserviceuab.dto.AccommodationCreationWithIdRequestDto;
-import com.example.microserviceuab.dto.AccommodationInfoResponseDto;
-import com.example.microserviceuab.dto.AccommodationUpdateRequestDto;
+import com.example.microserviceuab.dto.*;
 
 import java.util.List;
 
@@ -13,6 +10,8 @@ public interface AccommodationService {
     void create(AccommodationCreationWithIdRequestDto dto);
 
     void update(String id, AccommodationUpdateRequestDto dto);
+
+    AccommodationDetailsResponseDto findById(String id);
 
     List<AccommodationInfoResponseDto> findByOwnerId(String ownerId);
 

@@ -1,6 +1,7 @@
 package com.example.microserviceuab.controller;
 
 import com.example.microserviceuab.dto.ExceptionResponseDto;
+import com.example.microserviceuab.exception.AccommodationNotFoundException;
 import com.example.microserviceuab.exception.OwnerNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,14 @@ public class AccommodationExceptionHandler {
         LOGGER.error("handleOwnerNotFound", ex);
         return new ResponseEntity<>(
                 new ExceptionResponseDto("Owner not found"), HttpStatusCode.valueOf(HttpStatus.BAD_REQUEST.value())
+        );
+    }
+
+    @ExceptionHandler(AccommodationNotFoundException.class)
+    public ResponseEntity<ExceptionResponseDto> handleAccommodationNotFound(AccommodationNotFoundException ex) {
+        LOGGER.error("handleAccommodationNotFound", ex);
+        return new ResponseEntity<>(
+                new ExceptionResponseDto("Accommodation not found"), HttpStatusCode.valueOf(HttpStatus.BAD_REQUEST.value())
         );
     }
 

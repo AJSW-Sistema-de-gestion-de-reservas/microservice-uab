@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import java.util.List;
+
 @Builder
 @Data
 @Document(collection = "accommodation")
@@ -26,4 +28,7 @@ public class Accommodation {
 
     @DocumentReference(lazy = true)
     private Owner owner;
+
+    @DocumentReference(lazy = true)
+    private List<Room> rooms;
 }

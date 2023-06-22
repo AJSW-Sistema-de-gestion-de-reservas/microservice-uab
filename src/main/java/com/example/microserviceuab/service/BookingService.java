@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface BookingService {
-    void resgister(String accommodationId, String roomId, BookingCreationRequestDto dto);
+    void register(String accommodationId, String roomId, BookingCreationRequestDto dto);
 
     List<BookingInfoResponseDto> findAllByAccommodation(String accommodationId);
 

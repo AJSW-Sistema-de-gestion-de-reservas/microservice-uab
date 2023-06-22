@@ -32,7 +32,7 @@ public class BookingServiceImp implements BookingService {
 
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
-    public void resgister(String accommodationId, String roomId, BookingCreationRequestDto dto) {
+    public void register(String accommodationId, String roomId, BookingCreationRequestDto dto) {
         Client client = clientRepository.findById(dto.getClientId()).orElseThrow(RuntimeException::new);
 
         List<Availability> availabilities = availabilityRepository.findAllByAccommodationAndRoomAndDateBetween(

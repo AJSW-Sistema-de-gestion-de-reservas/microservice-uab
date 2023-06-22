@@ -2,27 +2,31 @@ package com.example.microserviceuab.service;
 
 import com.example.microserviceuab.domain.Accommodation;
 import com.example.microserviceuab.domain.Owner;
-import com.example.microserviceuab.dto.AccommodationCreationWithChatIdRequestDto;
-import com.example.microserviceuab.dto.AccommodationCreationWithIdRequestDto;
-import com.example.microserviceuab.dto.AccommodationInfoResponseDto;
-import com.example.microserviceuab.dto.AccommodationUpdateRequestDto;
+import com.example.microserviceuab.dto.*;
+import com.example.microserviceuab.exception.AccommodationNotFoundException;
 import com.example.microserviceuab.exception.OwnerNotFoundException;
 import com.example.microserviceuab.repository.AccommodationRepository;
 import com.example.microserviceuab.repository.OwnerRepository;
+import com.example.microserviceuab.repository.RoomRepository;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class AccommodationServiceImp implements AccommodationService {
     private final AccommodationRepository accommodationRepository;
+    private final RoomRepository roomRepository;
     private final OwnerRepository ownerRepository;
 
-    public AccommodationServiceImp(AccommodationRepository accommodationRepository, OwnerRepository ownerRepository) {
+    public AccommodationServiceImp(AccommodationRepository accommodationRepository,
+                                   RoomRepository roomRepository,
+                                   OwnerRepository ownerRepository) {
         this.accommodationRepository = accommodationRepository;
+        this.roomRepository = roomRepository;
         this.ownerRepository = ownerRepository;
     }
 
@@ -67,6 +71,34 @@ public class AccommodationServiceImp implements AccommodationService {
                 }, () -> {
                     throw new RuntimeException();
                 });
+    }
+
+    @Override
+    public AccommodationDetailsResponseDto findById(String id) {
+        Optional<Accommodation> result = accommodationRepository.findById(id);
+
+        if (result.isEmpty())
+            throw new AccommodationNotFoundException();
+
+        Accommodation accommodation = result.get();
+        AccommodationDetailsResponseDto.AccommodationDetailsResponseDtoBuilder builder = AccommodationDetailsResponseDto.builder()
+                .id(accommodation.getId())
+                .name(accommodation.getName())
+                .address(accommodation.getAddress())
+                .city(accommodation.getCity())
+                .province(accommodation.getProvince())
+                .postalCode(accommodation.getPostalCode());
+
+        List<RoomInfoResponseDto> rooms = roomRepository.findAllByAccommodation(new ObjectId(accommodation.getId()))
+                .stream().map(r -> RoomInfoResponseDto.builder()
+                        .id(r.getId())
+                        .name(r.getName())
+                        .quantity(r.getQuantity())
+                        .build())
+                .toList();
+        builder.rooms(rooms);
+
+        return builder.build();
     }
 
     @Override

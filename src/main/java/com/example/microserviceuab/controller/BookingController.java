@@ -24,7 +24,7 @@ public class BookingController {
     public ResponseEntity<String> register(@PathVariable String accommodationId,
                                            @PathVariable String roomId,
                                            @RequestBody BookingCreationRequestDto dto) {
-        service.resgister(accommodationId, roomId, dto);
+        service.register(accommodationId, roomId, dto);
         return ResponseEntity.ok("");
     }
 

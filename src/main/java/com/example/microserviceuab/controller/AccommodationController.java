@@ -1,9 +1,6 @@
 package com.example.microserviceuab.controller;
 
-import com.example.microserviceuab.dto.AccommodationCreationWithChatIdRequestDto;
-import com.example.microserviceuab.dto.AccommodationCreationWithIdRequestDto;
-import com.example.microserviceuab.dto.AccommodationInfoResponseDto;
-import com.example.microserviceuab.dto.AccommodationUpdateRequestDto;
+import com.example.microserviceuab.dto.*;
 import com.example.microserviceuab.service.AccommodationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +34,12 @@ public class AccommodationController {
     public ResponseEntity<String> update(@PathVariable String id, @RequestBody AccommodationUpdateRequestDto dto) {
         service.update(id, dto);
         return ResponseEntity.ok("");
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<AccommodationDetailsResponseDto> getById(@PathVariable String id) {
+        AccommodationDetailsResponseDto response = service.findById(id);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("search/owner={ownerId}")
