@@ -53,7 +53,7 @@ public class BookingServiceImp implements BookingService {
         long endMillis = endInstant.toEpochMilli();
 
         List<Availability> availabilities = new ArrayList<>();
-        for (long i = startMillis; i <= endMillis; i += 86400000) {
+        for (long i = startMillis; i <= endMillis; i += 86400000) { // advance one day (86400000 ms) in each iteration
             Instant instant = Instant.ofEpochMilli(i);
 
             Optional<Availability> availability = availabilityRepository.findByAccommodationAndRoomAndDate(
