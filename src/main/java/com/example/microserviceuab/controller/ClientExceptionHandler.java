@@ -28,8 +28,8 @@ public class ClientExceptionHandler {
     }
 
     @ExceptionHandler(ClientNotFoundException.class)
-    public ResponseEntity<ExceptionResponseDto> handleUserNotFound(ClientNotFoundException ex) {
-        LOGGER.error("handleUserNotFound", ex);
+    public ResponseEntity<ExceptionResponseDto> handleClientNotFound(ClientNotFoundException ex) {
+        LOGGER.error("handleClientNotFound", ex);
         return new ResponseEntity<>(
                 new ExceptionResponseDto("Client not found"), HttpStatusCode.valueOf(HttpStatus.NOT_FOUND.value())
         );

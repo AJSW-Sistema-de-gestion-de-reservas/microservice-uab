@@ -2,7 +2,6 @@ package com.example.microserviceuab.controller;
 
 
 import com.example.microserviceuab.dto.ExceptionResponseDto;
-import com.example.microserviceuab.exception.ClientNotFoundException;
 import com.example.microserviceuab.exception.OwnerNotFoundException;
 import com.example.microserviceuab.exception.UsernameAlreadyExistsException;
 import org.slf4j.Logger;
@@ -30,8 +29,8 @@ public class OwnerExceptionHandler {
     }
 
     @ExceptionHandler(OwnerNotFoundException.class)
-    public ResponseEntity<ExceptionResponseDto> handleUserNotFound(ClientNotFoundException ex) {
-        LOGGER.error("handleUserNotFound", ex);
+    public ResponseEntity<ExceptionResponseDto> handleOwnerNotFound(OwnerNotFoundException ex) {
+        LOGGER.error("handleOwnerNotFound", ex);
         return new ResponseEntity<>(
                 new ExceptionResponseDto("Owner not found"), HttpStatusCode.valueOf(HttpStatus.NOT_FOUND.value())
         );
