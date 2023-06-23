@@ -18,7 +18,6 @@ public class Availability {
     @MongoId(FieldType.OBJECT_ID)
     private String id;
     private Date date;
-    private double price;
     private int availableQuantity;
 
     @DocumentReference(lazy = true)

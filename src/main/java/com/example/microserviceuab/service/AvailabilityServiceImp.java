@@ -44,7 +44,6 @@ public class AvailabilityServiceImp implements AvailabilityService {
                 .accommodation(Accommodation.builder().id(accommodationId).build())
                 .room(room)
                 .date(dto.getDate())
-                .price(dto.getPrice())
                 .availableQuantity(room.getQuantity())
                 .build();
 
@@ -63,7 +62,6 @@ public class AvailabilityServiceImp implements AvailabilityService {
                 .roomId(availability.getRoom().getId())
                 .date(availability.getDate())
                 .availableQuantity(availability.getAvailableQuantity())
-                .price(availability.getPrice())
                 .build()).toList();
     }
 
@@ -81,7 +79,6 @@ public class AvailabilityServiceImp implements AvailabilityService {
                 .roomId(availability.getRoom().getId())
                 .date(availability.getDate())
                 .availableQuantity(availability.getAvailableQuantity())
-                .price(availability.getPrice())
                 .build();
     }
 
@@ -101,7 +98,6 @@ public class AvailabilityServiceImp implements AvailabilityService {
                 .roomId(availability.getRoom().getId())
                 .date(availability.getDate())
                 .availableQuantity(availability.getAvailableQuantity())
-                .price(availability.getPrice())
                 .build()).toList();
     }
 
@@ -115,7 +111,6 @@ public class AvailabilityServiceImp implements AvailabilityService {
                 .roomId(availability.getRoom().getId())
                 .date(availability.getDate())
                 .availableQuantity(availability.getAvailableQuantity())
-                .price(availability.getPrice())
                 .build()).toList();
     }
 
@@ -132,7 +127,6 @@ public class AvailabilityServiceImp implements AvailabilityService {
                 .roomId(availability.getRoom().getId())
                 .date(availability.getDate())
                 .availableQuantity(availability.getAvailableQuantity())
-                .price(availability.getPrice())
                 .build()).toList();
     }
 
@@ -150,7 +144,6 @@ public class AvailabilityServiceImp implements AvailabilityService {
                 .roomId(availability.getRoom().getId())
                 .date(availability.getDate())
                 .availableQuantity(availability.getAvailableQuantity())
-                .price(availability.getPrice())
                 .build()).toList();
     }
 }
