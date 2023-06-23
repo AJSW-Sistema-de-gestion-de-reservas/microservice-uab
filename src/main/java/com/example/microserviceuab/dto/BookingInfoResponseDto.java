@@ -9,8 +9,11 @@ import java.util.Date;
 @Data
 public class BookingInfoResponseDto {
     private String id;
+    private String clientName;
     private String clientId;
+    private String accommodationName;
     private String accommodationId;
+    private String roomName;
     private String roomId;
     private double amount;
     private boolean paid;
