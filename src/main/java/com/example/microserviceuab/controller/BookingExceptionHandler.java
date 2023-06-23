@@ -1,7 +1,9 @@
 package com.example.microserviceuab.controller;
 
 import com.example.microserviceuab.dto.ExceptionResponseDto;
+import com.example.microserviceuab.exception.ClientNotFoundException;
 import com.example.microserviceuab.exception.NoAvailabilityException;
+import com.example.microserviceuab.exception.RoomNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,24 @@ public class BookingExceptionHandler {
         return new ResponseEntity<>(
                 new ExceptionResponseDto("No availability between the requested dates"),
                 HttpStatusCode.valueOf(HttpStatus.CONFLICT.value())
+        );
+    }
+
+    @ExceptionHandler(ClientNotFoundException.class)
+    public ResponseEntity<ExceptionResponseDto> handleClientNotFound(ClientNotFoundException ex) {
+        LOGGER.error("handleClientNotFound", ex);
+        return new ResponseEntity<>(
+                new ExceptionResponseDto("Client not found"),
+                HttpStatusCode.valueOf(HttpStatus.BAD_REQUEST.value())
+        );
+    }
+
+    @ExceptionHandler(RoomNotFoundException.class)
+    public ResponseEntity<ExceptionResponseDto> handleRoomNotFound(RoomNotFoundException ex) {
+        LOGGER.error("handleRoomNotFound", ex);
+        return new ResponseEntity<>(
+                new ExceptionResponseDto("Room not found"),
+                HttpStatusCode.valueOf(HttpStatus.BAD_REQUEST.value())
         );
     }
 

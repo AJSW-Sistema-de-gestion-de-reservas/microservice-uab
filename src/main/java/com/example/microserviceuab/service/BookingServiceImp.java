@@ -3,50 +3,82 @@ package com.example.microserviceuab.service;
 import com.example.microserviceuab.domain.*;
 import com.example.microserviceuab.dto.BookingCreationRequestDto;
 import com.example.microserviceuab.dto.BookingInfoResponseDto;
+import com.example.microserviceuab.exception.ClientNotFoundException;
 import com.example.microserviceuab.exception.NoAvailabilityException;
+import com.example.microserviceuab.exception.RoomNotFoundException;
 import com.example.microserviceuab.repository.AvailabilityRepository;
 import com.example.microserviceuab.repository.BookingRepository;
 import com.example.microserviceuab.repository.ClientRepository;
+import com.example.microserviceuab.repository.RoomRepository;
 import com.example.microserviceuab.utils.TimeUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookingServiceImp implements BookingService {
     private final BookingRepository bookingRepository;
     private final AvailabilityRepository availabilityRepository;
+    private final RoomRepository roomRepository;
     private final ClientRepository clientRepository;
 
     @Autowired
-    public BookingServiceImp(BookingRepository bookingRepository, AvailabilityRepository availabilityRepository,
+    public BookingServiceImp(BookingRepository bookingRepository,
+                             AvailabilityRepository availabilityRepository,
+                             RoomRepository roomRepository,
                              ClientRepository clientRepository) {
         this.bookingRepository = bookingRepository;
         this.availabilityRepository = availabilityRepository;
+        this.roomRepository = roomRepository;
         this.clientRepository = clientRepository;
     }
 
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
     public void register(String accommodationId, String roomId, BookingCreationRequestDto dto) {
-        Client client = clientRepository.findById(dto.getClientId()).orElseThrow(RuntimeException::new);
+        Client client = clientRepository.findById(dto.getClientId()).orElseThrow(ClientNotFoundException::new);
+        Room room = roomRepository.findByIdAndAccommodation(roomId, new ObjectId(accommodationId))
+                .orElseThrow(RoomNotFoundException::new);
 
-        List<Availability> availabilities = availabilityRepository.findAllByAccommodationAndRoomAndDateBetween(
-                new ObjectId(accommodationId), new ObjectId(roomId),
-                TimeUtils.convertInstantDateToUTC(dto.getCheckIn()),
-                TimeUtils.convertInstantDateToUTC(dto.getCheckOut())
-        );
+        Instant startInstant = dto.getCheckIn().toInstant();
+        Instant endInstant = dto.getCheckOut().toInstant();
+        long startMillis = startInstant.toEpochMilli();
+        long endMillis = endInstant.toEpochMilli();
 
-        for (Availability availability : availabilities) {
-            if (availability.getAvailableQuantity() <= 0) {
-                throw new NoAvailabilityException();
+        List<Availability> availabilities = new ArrayList<>();
+        for (long i = startMillis; i <= endMillis; i += 86400000) {
+            Instant instant = Instant.ofEpochMilli(i);
+
+            Optional<Availability> availability = availabilityRepository.findByAccommodationAndRoomAndDate(
+                    new ObjectId(accommodationId),
+                    new ObjectId(roomId),
+                    instant
+            );
+
+            Availability av;
+            if (availability.isEmpty()) {
+                av = Availability.builder()
+                        .date(Date.from(instant))
+                        .accommodation(Accommodation.builder().id(accommodationId).build())
+                        .room(room)
+                        .availableQuantity(room.getQuantity() - 1)
+                        .build();
             } else {
-                availability.setAvailableQuantity(availability.getAvailableQuantity() - 1);
+                av = availability.get();
+
+                if (av.getAvailableQuantity() <= 0)
+                    throw new NoAvailabilityException();
+
+                av.setAvailableQuantity(av.getAvailableQuantity() - 1);
             }
+            availabilities.add(av);
         }
         availabilityRepository.saveAll(availabilities);
 
