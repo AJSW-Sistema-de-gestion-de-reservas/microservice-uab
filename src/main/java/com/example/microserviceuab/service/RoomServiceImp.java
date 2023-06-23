@@ -39,6 +39,7 @@ public class RoomServiceImp implements RoomService {
         Room room = Room.builder()
                 .name(dto.getName())
                 .quantity(dto.getQuantity())
+                .maxPeople(dto.getMaxPeople())
                 .enabled(true)
                 .accommodation(accommodation)
                 .build();
@@ -53,6 +54,7 @@ public class RoomServiceImp implements RoomService {
         return results.stream().map(room -> RoomInfoResponseDto.builder()
                 .id(room.getId())
                 .name(room.getName())
+                .maxPeople(room.getMaxPeople())
                 .quantity(room.getQuantity())
                 .build()).toList();
     }

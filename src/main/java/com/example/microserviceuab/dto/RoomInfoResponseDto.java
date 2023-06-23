@@ -8,5 +8,6 @@ import lombok.Data;
 public class RoomInfoResponseDto {
     private String id;
     private String name;
+    private int maxPeople;
     private int quantity;
 }

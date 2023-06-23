@@ -14,6 +14,7 @@ public class Room {
     @MongoId(FieldType.OBJECT_ID)
     private String id;
     private String name;
+    private int maxPeople;
     private int quantity;
     private boolean enabled;
 

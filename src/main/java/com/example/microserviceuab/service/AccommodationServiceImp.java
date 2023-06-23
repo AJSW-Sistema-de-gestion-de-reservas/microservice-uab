@@ -93,6 +93,7 @@ public class AccommodationServiceImp implements AccommodationService {
                 .stream().map(r -> RoomInfoResponseDto.builder()
                         .id(r.getId())
                         .name(r.getName())
+                        .maxPeople(r.getMaxPeople())
                         .quantity(r.getQuantity())
                         .build())
                 .toList();
