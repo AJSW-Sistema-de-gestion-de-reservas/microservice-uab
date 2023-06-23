@@ -95,6 +95,7 @@ public class AccommodationServiceImp implements AccommodationService {
                         .name(r.getName())
                         .maxPeople(r.getMaxPeople())
                         .quantity(r.getQuantity())
+                        .price(r.getPrice())
                         .build())
                 .toList();
         builder.rooms(rooms);

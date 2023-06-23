@@ -40,6 +40,7 @@ public class RoomServiceImp implements RoomService {
                 .name(dto.getName())
                 .quantity(dto.getQuantity())
                 .maxPeople(dto.getMaxPeople())
+                .price(dto.getPrice())
                 .enabled(true)
                 .accommodation(accommodation)
                 .build();
@@ -56,6 +57,7 @@ public class RoomServiceImp implements RoomService {
                 .name(room.getName())
                 .maxPeople(room.getMaxPeople())
                 .quantity(room.getQuantity())
+                .price(room.getPrice())
                 .build()).toList();
     }
 }

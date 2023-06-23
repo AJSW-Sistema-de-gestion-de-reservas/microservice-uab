@@ -10,4 +10,5 @@ public class RoomInfoResponseDto {
     private String name;
     private int maxPeople;
     private int quantity;
+    private double price;
 }
