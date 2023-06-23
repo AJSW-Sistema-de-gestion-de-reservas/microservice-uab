@@ -83,7 +83,7 @@ public class BookingServiceImp implements BookingService {
         availabilityRepository.saveAll(availabilities);
 
         Booking booking = Booking.builder()
-                .amount(0)
+                .amount(availabilities.size() * room.getPrice())
                 .paid(false)
                 .checkIn(Date.from(TimeUtils.convertInstantDateToUTC(dto.getCheckIn())))
                 .checkOut(Date.from(TimeUtils.convertInstantDateToUTC(dto.getCheckOut())))
