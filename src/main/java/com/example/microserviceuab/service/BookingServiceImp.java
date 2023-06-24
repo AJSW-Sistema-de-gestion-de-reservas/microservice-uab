@@ -54,7 +54,7 @@ public class BookingServiceImp implements BookingService {
 
         List<Availability> availabilities = new ArrayList<>();
         for (long i = startMillis; i <= endMillis; i += 86400000) { // advance one day (86400000 ms) in each iteration
-            Instant instant = Instant.ofEpochMilli(i);
+            Instant instant = TimeUtils.convertInstantDateToUTC(Date.from(Instant.ofEpochMilli(i)));
 
             Optional<Availability> availability = availabilityRepository.findByAccommodationAndRoomAndDate(
                     new ObjectId(accommodationId),
@@ -84,11 +84,9 @@ public class BookingServiceImp implements BookingService {
 
         Booking booking = Booking.builder()
                 .amount(availabilities.size() * room.getPrice())
-                .paid(false)
                 .checkIn(Date.from(TimeUtils.convertInstantDateToUTC(dto.getCheckIn())))
                 .checkOut(Date.from(TimeUtils.convertInstantDateToUTC(dto.getCheckOut())))
                 .createdAt(new Date())
-                .paymentConfirmedAt(null)
                 .accommodation(Accommodation.builder().id(accommodationId).build())
                 .room(Room.builder().id(roomId).build())
                 .client(client)
@@ -110,10 +108,8 @@ public class BookingServiceImp implements BookingService {
                 .roomId(booking.getRoom().getId())
                 .roomName(booking.getRoom().getName())
                 .amount(booking.getAmount())
-                .paid(booking.isPaid())
                 .checkIn(booking.getCheckIn())
                 .checkOut(booking.getCheckOut())
-                .paymentConfirmedAt(booking.getPaymentConfirmedAt())
                 .build()).toList();
     }
 
@@ -132,10 +128,8 @@ public class BookingServiceImp implements BookingService {
                 .roomId(booking.getRoom().getId())
                 .roomName(booking.getRoom().getName())
                 .amount(booking.getAmount())
-                .paid(booking.isPaid())
                 .checkIn(booking.getCheckIn())
                 .checkOut(booking.getCheckOut())
-                .paymentConfirmedAt(booking.getPaymentConfirmedAt())
                 .build()).toList();
     }
 
@@ -157,10 +151,8 @@ public class BookingServiceImp implements BookingService {
                 .roomId(booking.getRoom().getId())
                 .roomName(booking.getRoom().getName())
                 .amount(booking.getAmount())
-                .paid(booking.isPaid())
                 .checkIn(booking.getCheckIn())
                 .checkOut(booking.getCheckOut())
-                .paymentConfirmedAt(booking.getPaymentConfirmedAt())
                 .build()).toList();
     }
 
@@ -179,10 +171,8 @@ public class BookingServiceImp implements BookingService {
                 .roomId(booking.getRoom().getId())
                 .roomName(booking.getRoom().getName())
                 .amount(booking.getAmount())
-                .paid(booking.isPaid())
                 .checkIn(booking.getCheckIn())
                 .checkOut(booking.getCheckOut())
-                .paymentConfirmedAt(booking.getPaymentConfirmedAt())
                 .build()).toList();
     }
 
@@ -204,10 +194,8 @@ public class BookingServiceImp implements BookingService {
                 .roomId(booking.getRoom().getId())
                 .roomName(booking.getRoom().getName())
                 .amount(booking.getAmount())
-                .paid(booking.isPaid())
                 .checkIn(booking.getCheckIn())
                 .checkOut(booking.getCheckOut())
-                .paymentConfirmedAt(booking.getPaymentConfirmedAt())
                 .build()).toList();
     }
 
@@ -232,10 +220,8 @@ public class BookingServiceImp implements BookingService {
                 .roomId(booking.getRoom().getId())
                 .roomName(booking.getRoom().getName())
                 .amount(booking.getAmount())
-                .paid(booking.isPaid())
                 .checkIn(booking.getCheckIn())
                 .checkOut(booking.getCheckOut())
-                .paymentConfirmedAt(booking.getPaymentConfirmedAt())
                 .build()).toList();
     }
 
@@ -252,10 +238,8 @@ public class BookingServiceImp implements BookingService {
                 .roomId(booking.getRoom().getId())
                 .roomName(booking.getRoom().getName())
                 .amount(booking.getAmount())
-                .paid(booking.isPaid())
                 .checkIn(booking.getCheckIn())
                 .checkOut(booking.getCheckOut())
-                .paymentConfirmedAt(booking.getPaymentConfirmedAt())
                 .build()).toList();
     }
 }

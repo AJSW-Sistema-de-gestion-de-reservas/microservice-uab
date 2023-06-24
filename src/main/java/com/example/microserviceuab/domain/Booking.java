@@ -18,13 +18,11 @@ public class Booking {
     @MongoId(FieldType.OBJECT_ID)
     private String id;
     private double amount;
-    private boolean paid;
     @Indexed(direction = IndexDirection.DESCENDING)
     private Date checkIn;
     @Indexed(direction = IndexDirection.DESCENDING)
     private Date checkOut;
     private Date createdAt;
-    private Date paymentConfirmedAt;
 
     @DocumentReference(lazy = true)
     private Client client;
