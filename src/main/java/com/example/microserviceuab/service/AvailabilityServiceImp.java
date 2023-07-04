@@ -5,7 +5,7 @@ import com.example.microserviceuab.domain.Availability;
 import com.example.microserviceuab.domain.Room;
 import com.example.microserviceuab.dto.AvailabilityCreateRequestDto;
 import com.example.microserviceuab.dto.AvailabilityInfoResponseDto;
-import com.example.microserviceuab.exception.AvailabilityAlreadyExists;
+import com.example.microserviceuab.exception.AvailabilityAlreadyExistsException;
 import com.example.microserviceuab.exception.AvailabilityNotFoundException;
 import com.example.microserviceuab.exception.RoomNotFoundException;
 import com.example.microserviceuab.repository.AvailabilityRepository;
@@ -38,7 +38,7 @@ public class AvailabilityServiceImp implements AvailabilityService {
                 new ObjectId(accommodationId),
                 new ObjectId(roomId),
                 TimeUtils.convertInstantDateToUTC(dto.getDate())))
-            throw new AvailabilityAlreadyExists();
+            throw new AvailabilityAlreadyExistsException();
 
         Availability availability = Availability.builder()
                 .accommodation(Accommodation.builder().id(accommodationId).build())

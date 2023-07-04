@@ -1,7 +1,7 @@
 package com.example.microserviceuab.controller;
 
 import com.example.microserviceuab.dto.ExceptionResponseDto;
-import com.example.microserviceuab.exception.AvailabilityAlreadyExists;
+import com.example.microserviceuab.exception.AvailabilityAlreadyExistsException;
 import com.example.microserviceuab.exception.AvailabilityNotFoundException;
 import com.example.microserviceuab.exception.RoomNotFoundException;
 import org.slf4j.Logger;
@@ -38,8 +38,8 @@ public class AvailabilityExceptionHandler {
         );
     }
 
-    @ExceptionHandler(AvailabilityAlreadyExists.class)
-    public ResponseEntity<ExceptionResponseDto> handleAvailabilityAlreadyExists(AvailabilityAlreadyExists ex) {
+    @ExceptionHandler(AvailabilityAlreadyExistsException.class)
+    public ResponseEntity<ExceptionResponseDto> handleAvailabilityAlreadyExists(AvailabilityAlreadyExistsException ex) {
         LOGGER.error("handle");
         return new ResponseEntity<>(
                 new ExceptionResponseDto("Availability data for that date already exists"),
