@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@RequestMapping("api/availability")
 public class AvailabilityController {
     private final AvailabilityService service;
 
@@ -20,7 +21,7 @@ public class AvailabilityController {
         this.service = service;
     }
 
-    @PostMapping("api/accommodation/{accommodationId}/room/{roomId}/availability")
+    @PostMapping("accommodation/{accommodationId}/room/{roomId}")
     public ResponseEntity<String> registerByAccommodationIdAndRoomId(@PathVariable String accommodationId,
                                                                      @PathVariable String roomId,
                                                                      @RequestBody AvailabilityCreateRequestDto dto) {
@@ -28,7 +29,7 @@ public class AvailabilityController {
         return ResponseEntity.ok("");
     }
 
-    @GetMapping("api/accommodation/{accommodationId}/room/{roomId}/availability")
+    @GetMapping("accommodation/{accommodationId}/room/{roomId}")
     public ResponseEntity<List<AvailabilityInfoResponseDto>> getByAccommodationIdAndRoomId(
             @PathVariable String accommodationId,
             @PathVariable String roomId) {
@@ -36,7 +37,7 @@ public class AvailabilityController {
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("api/accommodation/{accommodationId}/room/{roomId}/availability/{date}")
+    @GetMapping("accommodation/{accommodationId}/room/{roomId}/{date}")
     public ResponseEntity<AvailabilityInfoResponseDto> getByAccommodationIdRoomIdAndDate(
             @PathVariable String accommodationId,
             @PathVariable String roomId,
@@ -45,7 +46,7 @@ public class AvailabilityController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("api/accommodation/{accommodationId}/room/{roomId}/availability/{start}/{end}")
+    @GetMapping("accommodation/{accommodationId}/room/{roomId}/{start}/{end}")
     public ResponseEntity<List<AvailabilityInfoResponseDto>> getByAccommodationIdRoomIdAndDates(
             @PathVariable String accommodationId,
             @PathVariable String roomId,
@@ -58,13 +59,13 @@ public class AvailabilityController {
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("api/accommodation/{accommodationId}/availability")
+    @GetMapping("accommodation/{accommodationId}")
     public ResponseEntity<List<AvailabilityInfoResponseDto>> getByAccommodationId(@PathVariable String accommodationId) {
         List<AvailabilityInfoResponseDto> results = service.findByAccommodationId(accommodationId);
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("api/accommodation/{accommodationId}/availability/{date}")
+    @GetMapping("accommodation/{accommodationId}/{date}")
     public ResponseEntity<List<AvailabilityInfoResponseDto>> getByAccommodationIdAndDate(
             @PathVariable String accommodationId,
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
@@ -72,7 +73,7 @@ public class AvailabilityController {
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("api/accommodation/{accommodationId}/availability/{startDate}/{endDate}")
+    @GetMapping("/accommodation/{accommodationId}/{startDate}/{endDate}")
     public ResponseEntity<List<AvailabilityInfoResponseDto>> getByAccommodationIdAndDate(
             @PathVariable String accommodationId,
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,

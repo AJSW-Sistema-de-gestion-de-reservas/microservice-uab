@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@RequestMapping("api/booking")
 public class BookingController {
     private final BookingService service;
 
@@ -20,7 +21,7 @@ public class BookingController {
         this.service = service;
     }
 
-    @PostMapping("api/accommodation/{accommodationId}/room/{roomId}/booking")
+    @PostMapping("accommodation/{accommodationId}/room/{roomId}")
     public ResponseEntity<String> register(@PathVariable String accommodationId,
                                            @PathVariable String roomId,
                                            @RequestBody BookingCreationRequestDto dto) {
@@ -28,13 +29,13 @@ public class BookingController {
         return ResponseEntity.ok("");
     }
 
-    @GetMapping("api/accommodation/{accommodationId}/booking")
+    @GetMapping("accommodation/{accommodationId}")
     public ResponseEntity<List<BookingInfoResponseDto>> getAllByAccommodation(@PathVariable String accommodationId) {
         List<BookingInfoResponseDto> results = service.findAllByAccommodation(accommodationId);
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("api/accommodation/{accommodationId}/booking/{date}")
+    @GetMapping("accommodation/{accommodationId}/{date}")
     public ResponseEntity<List<BookingInfoResponseDto>> getAllByAccommodationAndDate(
             @PathVariable String accommodationId,
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
@@ -42,7 +43,7 @@ public class BookingController {
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("api/accommodation/{accommodationId}/booking/{startDate}/{endDate}")
+    @GetMapping("accommodation/{accommodationId}/{startDate}/{endDate}")
     public ResponseEntity<List<BookingInfoResponseDto>> getAllByAccommodationAndDateBetween(
             @PathVariable String accommodationId,
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
@@ -51,7 +52,7 @@ public class BookingController {
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("api/accommodation/{accommodationId}/room/{roomId}/booking")
+    @GetMapping("accommodation/{accommodationId}/room/{roomId}")
     public ResponseEntity<List<BookingInfoResponseDto>> getAllByAccommodationAndRoom(
             @PathVariable String accommodationId,
             @PathVariable String roomId) {
@@ -59,7 +60,7 @@ public class BookingController {
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("api/accommodation/{accommodationId}/room/{roomId}/booking/{date}")
+    @GetMapping("accommodation/{accommodationId}/room/{roomId}/{date}")
     public ResponseEntity<List<BookingInfoResponseDto>> getAllByAccommodationAndRoomAndDate(
             @PathVariable String accommodationId,
             @PathVariable String roomId,
@@ -68,7 +69,7 @@ public class BookingController {
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("api/accommodation/{accommodationId}/room/{roomId}/booking/{startDate}/{endDate}")
+    @GetMapping("accommodation/{accommodationId}/room/{roomId}/{startDate}/{endDate}")
     public ResponseEntity<List<BookingInfoResponseDto>> getAllByAccommodationAndRoomAndBetweenDates(
             @PathVariable String accommodationId,
             @PathVariable String roomId,
@@ -78,7 +79,7 @@ public class BookingController {
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("api/client/{clientId}/booking")
+    @GetMapping("client/{clientId}")
     public ResponseEntity<List<BookingInfoResponseDto>> getAllByClient(@PathVariable String clientId) {
         List<BookingInfoResponseDto> results = service.findAllByClient(clientId);
         return ResponseEntity.ok(results);
